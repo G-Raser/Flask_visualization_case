@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/static/echarts.min.js"></script>
+    <style>
+        #main{
+            width: 600px;
+            height: 400px;
+        }
+    </style>
+</head>
+
+<body>
+<div id="main"></div>
+    <script type="text/javascript">
+            // 基于准备好的dom，初始化 echarts 实例并绘制图表。
+            var myChart=echarts.init(document.getElementById('main'));
+            // 指定图表的配置项和数据
+            var option = {
+                title: {
+                    text: '比亚迪汽车销量'
+                },
+                dataZoom: [{
+                          type: 'slider',
+                          show: true, //flase直接隐藏图形
+                          xAxisIndex: [0],
+                          left: '9%', //滚动条靠左侧的百分比
+                          bottom: -5,
+                          start: 10,//滚动条的起始位置
+                          end: 20 //滚动条的截止位置（按比例分割你的柱状图x轴长度）
+                      }],
+                xAxis: {
+                    name:"日期",
+                    type: 'category',
+                    data:[
+                    		{% for item in items %}
+                            	"{{ item[0]}}",
+                        	{% endfor %}
+                       ]},
+                yAxis: {
+                    name:"销量",
+                    type: 'value',
+                    axisLabel : {
+                    formatter: '{value} '}
+                },
+                series: [
+                        {
+                            type: 'line',	//line折线图。bar柱形图
+                            data:[{% for item in items %}
+                            		"{{ item[1]}}",
+                        			{% endfor %}],
+                            itemStyle:{normal: {color:"#31b0d5"}}
+                        }
+                    ]
+                };
+            myChart.setOption(option);// 基于准备好的dom，初始化 echarts 实例并绘制图表。
+     </script>
+</body>
+
+</html>
